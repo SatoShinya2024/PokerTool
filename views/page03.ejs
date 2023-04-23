@@ -1,0 +1,30 @@
+<%- include('header', title) %>
+<main class="container-fluid">
+    <div class="container-fluid" id="form_wrapper">
+        
+        <div class=""><label for="input_label" class="col-4 col-form-label text-light fs-1">ユーザID</label>
+            <div class="col"><input class="form-control fs-1" type="text" pattern="^[0-9A-Za-z]+$" maxlength=16  name="username" id="username" required></div>
+        </div>
+        <div class="">
+            <p class="text-light fs-3 col-8">※半角英数字8文字以上16文字以下</p>
+        </div>
+        <div class="mt-4"><label for="input_label" class="col-4 col-form-label text-light fs-1">パスワード</label>
+            <div class="col"><input class="form-control fs-1" type="password" pattern="^[0-9A-Za-z]+$" maxlength=16 name="password01" id="password01" required></div>
+        </div>
+        <div class="">
+            <p class="text-light fs-3 col-8">※半角英数字8文字以上16文字以下</p>
+        </div>        
+        <div class="mt-4"><label for="input_label" class="col-4 col-form-label text-light fs-1">パスワード再入力</label>
+            <div class="col"><input class="form-control fs-1" type="password" pattern="^[0-9A-Za-z]+$" maxlength=16 name="password02" id="password02" required></div>
+        </div>
+        <p class="text-center"><button class="btn btn-secondary mt-5 fs-1" id="submit" onclick="submit_userregister()">登録</button></p>
+    </div>
+</main>
+<script>
+window.document.onkeydown = function(event){
+    if(event.key === 'Enter'){
+        document.getElementById('submit').click();
+    }
+}
+</script>
+<%- include('footer') %>

@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  name String @unique
+  nickname String
+  password String
+  updateAt DateTime @updatedAt
+  handhistories Handhistory[]
+  historylist Historylist[]
+}
+
+model Handhistory{
+  id Int @id @default(autoincrement())
+  name String
+  comment String?
+  updateAt DateTime @updatedAt
+  userid Int 
+  user User @relation(fields:[userid], references: [id], onDelete: Cascade)
+  tag1 String?
+  tag2 String?
+  tag3 String?
+  historysettings Historysetting[]
+  historyplayer Historyplayer[]
+  historyboard Historyboard[]
+  historypreflop Historypreflop[]
+  historyflop Historyflop[]
+  historyturn Historyturn[]
+  historyriver Historyriver[]
+  historylistcontentes Historylistcontente[]
+}
+
+model Historysetting{
+  id Int @id @default(autoincrement())
+  players String
+  game String
+  sblind String
+  bblind String
+  uni String
+  effectivestack String
+  anteplayer String?
+  anteamount String?
+  stradler String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historyplayer{
+  id Int @id @default(autoincrement())
+  position String
+  name String?
+  card1 String?
+  card2 String?
+  stack String
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historyboard{
+  id Int @id @default(autoincrement())
+  card1 String?
+  card2 String?
+  card3 String?
+  card4 String?
+  card5 String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historypreflop{
+  id Int @id @default(autoincrement())
+  street String
+  num Int
+  position String?
+  action String?
+  chip String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historyflop{
+  id Int @id @default(autoincrement())
+  street String
+  num Int
+  position String?
+  action String?
+  chip String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historyturn{
+  id Int @id @default(autoincrement())
+  street String
+  num Int
+  position String?
+  action String?
+  chip String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historyriver{
+  id Int @id @default(autoincrement())
+  street String
+  num Int
+  position String?
+  action String?
+  chip String?
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references: [id], onDelete: Cascade)
+}
+
+model Historylist{
+  id Int @id @default(autoincrement())
+  userid Int
+  name String
+  date String
+  historylistcontentes Historylistcontente[]
+  updateAt DateTime @updatedAt
+  user User @relation(fields:[userid], references:[id], onDelete:Cascade)
+}
+
+model Historylistcontente{
+  id Int @id @default(autoincrement())
+  listid Int
+  handid Int
+  handhistory Handhistory @relation(fields:[handid], references:[id], onDelete:Cascade)
+  historylist Historylist @relation(fields:[listid], references:[id], onDelete:Cascade)
+}

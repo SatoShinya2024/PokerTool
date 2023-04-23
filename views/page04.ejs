@@ -1,0 +1,34 @@
+<%- include('header', title) %>
+<main>
+    <div id="button_wrapper" class="container-fluid text-center">
+        <p class="text-light fs-2"><span role="button" onclick="change_nickname()"><%=username%></span>さん、こんにちは！</p>
+        <p class=""><button class="btn btn-outline-info btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn" onclick="location.href='./page05_1'">ハンドヒストリー<br>の登録</button></p>
+        <p class=""><button class="btn btn-outline-success btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn" onclick="location.href='./page06_1'">履歴</button></p>
+        <p class=""><button class="btn btn-outline-warning btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn" onclick="location.href='./page07_1'">お気に入りリスト</button></p>
+        <!-- <p class=""><button class="btn btn-outline-info btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn">フレンドリスト</button></p>
+        <p class=""><button class="btn btn-outline-info btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn">ハンド共有</button></p>
+        <p class=""><button class="btn btn-outline-danger btn-light text-dark fs-1 w-50 mt-5 mb-5" name="main_btn">チャット</button></p> -->
+        <p class=""><button id="closebtn" class="btn btn-secondary fs-1 w-50 mt-5 mb-5" onclick="logout()">ログアウト</button></p>
+    </div>
+    <div class="modal fade" id="nickname_change_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" id="exampleModalLabel">ニックネームを変える</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="myform" id="myform" method="post">
+                    <label class="form-label fs-1">新しいニックネーム</label><input type="text" class="form-control fs-1" name="newname" id="newname">
+                    <p class="fs-3">※ニックネームはユーザIDのことではありません。ニックネームを変更してもユーザIDは変わりませんので、ログインの際はユーザIDを入力してください。</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="form_submit()">決定</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+<%- include('footer') %>

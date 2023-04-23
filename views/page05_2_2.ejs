@@ -1,0 +1,649 @@
+<%- include('header_05', title) %>
+<main class="container-fluid mb-5">
+  <h1 class="text-light display-1 text-center">ハンドヒストリーの登録</h1>
+	<div class="container-fluid border border-5 rounded fs-1 text-start text-dark bg-light" id="setting_wrapper" style="margin: 0 auto;">
+		<h2 class="display-3 text-center mb-3">ゲームの設定</h2>
+    <div class="row mt-5 justify-content-center">
+			<label class="form-label col-4">ゲームの種類:</label>
+			<div class="col-7">
+				<select name="game_type" id="game_type" class="form-select fs-1">
+					<option value="キャッシュ">キャッシュ</option>
+					<option value="トーナメント">トーナメント</option>
+				</select>
+			</div>
+		</div>
+    
+    <div class="row mt-5 justify-content-center">
+			<label class="form-label col-4">スタック量:</label>
+			<div class="col-7">
+				<input type="number" class="form-control fs-1" name="effective_stack" id="effective_stack"  placeholder="effective stackを入力" autocomplete="off" value=100 onchange="effectivestack_change()">
+			</div>	
+		</div>
+    
+    <div class="row mt-5 justify-content-center">
+			<label class="form-label col-4">単位:</label>
+			<div class="col-7">
+				<select id="unit" class="form-select fs-1" onchange="unit_change()" name="unit">
+					<option value="bb">bb</option>
+					<option value="pt">pt</option>
+					<option value="$">$</option>
+				</select>
+			</div>
+		</div>
+    
+    
+    <div class="row mt-5 justify-content-center">
+			<label class="form-label col-4">ブラインド:</label>
+			<div class="col-7 row justify-content-between">
+				<div class="col-5">
+					<input type="number" name="small_blind" id="small_blind" autocomplete="off" value=0.5 class="form-control fs-1">
+				</div>
+				<div class="col-2 text-center">/</div>
+				<div class="col-5">
+					<input type="number" name="big_blind" id="big_blind" autocomplete="off" value=1 class="form-control fs-1">
+				</div>
+			</div>
+		</div>
+    
+    
+    <div class="row mt-5 justify-content-center">
+			<label class="form-label col-4">アンティ:</label>
+			<div class="row col-7 justify-content-between">
+				<div class="col">
+					<select name="ante_who" id = "ante_who" class="form-select fs-1">
+						<option value="none" selected disabled>誰が払う？</option>
+						<option value="none">なし</option>
+						<option value="BigBlind">BB</option>
+						<option value="AllPlayer">全てのプレイヤー</option>
+					</select>
+				</div>
+				<div class="col">
+					<input type="number" class="form-control fs-1" name="ante_amount" id="ante_amount" list="ante" placeholder="いくら？" autocomplete="off">
+					<datalist id="ante">
+					<option value=1>
+					<option value=0.5>
+					<option value=0.2>
+					<option value=0.1>
+					</datalist>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+    <div class="container-fluid text-dark bg-light border border-5 mt-5 text-center" id="players_wrapper">
+      <h2 class="display-1 text-center text-dark mt-3 mb-3">ハンド登録</h2>
+      <div id="players_hand" class="row justify-content-around align-items-center">
+        <div class="col-4 border border-2" name="player-box">
+          <div class="lead fs-1 text-dark">SB</div>
+          <div class="mt-2">
+            <input class = "form-control fs-1" name="personal_name" id = "SB_person" placeholder="プレイヤー名">
+          </div>
+          <div class="row justify-content-center mt-2">
+            <img src="/images/card-img/trumpdummy.JPG" class="col-6" id="SB_card1" name="SB" onclick="card_click('SB_card1', 0, 'hand')"><img src="/images/card-img/trumpdummy.JPG" class="col-6" id="SB_card2" name="SB" onclick="card_click('SB_card2', 1, 'hand')">
+          </div>
+          <div class="mt-2"><button class="btn btn-secondary w-100 fs-2" onclick="card_clear(['SB_card1', 'SB_card2'], [0, 1], 'hand')">クリア</button></div>
+          <div class="row align-items-center  justify-content-between mt-2 mb-2">
+            <div class="col-8"><input type="number" value=100 class="form-control fs-1" name="player_stack" id="SB_stack"></div><div class="col-4 fs-1 text-start" name="player_unit">bb</div>
+          </div>
+        </div>
+        <div class="col-4 border border-2" name="player-box">
+          <div class="lead fs-1 text-dark">BB</div>
+          <div class="mt-2">
+            <input class = "form-control fs-1" name="personal_name" id = "BB_person" placeholder="プレイヤー名">
+          </div>
+          <div class="row justify-content-center mt-2">
+            <img src="/images/card-img/trumpdummy.JPG" class="col-6" id="BB_card1" name="BB" onclick="card_click('BB_card1', 2, 'hand')"><img src="/images/card-img/trumpdummy.JPG" class="col-6" id="BB_card2" name="BB" onclick="card_click('BB_card2', 3, 'hand')">
+          </div>
+          <div class="mt-2"><button class="btn btn-secondary w-100 fs-2" onclick="card_clear(['BB_card1', 'BB_card2'], [2, 3], 'hand')">クリア</button></div>
+          <div class="row align-items-center  justify-content-between mt-2 mb-2">
+            <div class="col-8"><input type="number" value=100 class="form-control fs-1" name="player_stack" id="BB_stack"></div><div class="col-4 fs-1 text-start" name="player_unit">bb</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="canvas_wrapper" style="display: none;" class="container-fluid bg-light border-none mt-2">
+      <canvas class="container-fluid" id="canvas" width="800" height="400">
+        
+      </canvas>
+      
+      <p class="text-center"><button class="btn btn-outline-info fs-1" onclick="video_draw('canvas', false)" >動画でアクションを確認する</button></p>
+      <p class="text-center"><button class="btn btn-outline-secondary fs-1" onclick = "canvas_close()"  >画面を閉じる</button></p>
+    </div>
+  
+    <div class="container-fluid mt-3 bg-light" id="large_wrapper">
+      
+      <div class="text-center container-fluid">
+        <p class="text-center"><button onclick="canvas_open()" class="btn btn-outline-info fs-1 mt-5">画像で記述内容を確認する</button></p>
+      <div id="board" class="text-center container-fluid">
+        <h2 class="display-1 text-dark">ボード</h2>
+        <div class="justify-content-center row mb-2">
+          <img src="/images/card-img/trumpdummy.JPG" class="col-2"  id="board_card1" name = "フロップ" onclick="card_click('board_card1', 0, 'board')">
+          <img src="/images/card-img/trumpdummy.JPG" class="col-2"  id="board_card2" name = "フロップ" onclick="card_click('board_card2', 1, 'board')">
+          <img src="/images/card-img/trumpdummy.JPG" class="col-2"  id="board_card3" name = "フロップ" onclick="card_click('board_card3', 2, 'board')">
+          <img src="/images/card-img/trumpdummy.JPG" class="col-2" id="board_card4" name = "ターン" onclick="card_click('board_card4', 3, 'board')">
+          <img src="/images/card-img/trumpdummy.JPG" class="col-2" id="board_card5" name = "リバー" onclick="card_click('board_card5', 4, 'board')">
+        </div>
+        <div class="mt-2"><button class="btn btn-secondary w-50 fs-2" onclick="card_clear(['board_card1', 'board_card2', 'board_card3', 'board_card4', 'board_card5', 'flop_card01', 'flop_card02', 'flop_card03', 'turn_card', 'river_card'], [0, 1, 2, 3, 4], 'board')">クリア</button></div>
+      </div>
+        
+        
+        
+      <div id="players_action" class="container-fluid mt-5">
+        <h2 class="display-1">アクションを入力</h2>
+      <p><button onclick="show_result()" class="btn btn-primary fs-1">ゲームの結果を表示する</button><p>
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h1 class="accordion-header" id="headingOne">
+            <button id="preflop" class="accordion-button fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              プリフロップ
+            </button>
+            </h1>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p id="preflop_start"></p>
+              <p id="preflop_L01" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L01)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L01, preflop_L02)"></p>
+              <p id="preflop_L02" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L02)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L02, preflop_L03)"></p>
+              <p id="preflop_L03" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L03)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L03, preflop_L04)"></p>
+              <p id="preflop_L04" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L04)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L04, preflop_L05)"></p>
+              <p id="preflop_L05" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L05)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L05, preflop_L06)"></p>
+              <p id="preflop_L06" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L06)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L06, preflop_L07)"></p>
+              <p id="preflop_L07" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L07)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L07, preflop_L08)"></p>
+              <p id="preflop_L08" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L08)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L08, preflop_L09)"></p>
+              <p id="preflop_L09" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L09)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L09, preflop_L10)"></p>
+              <p id="preflop_L10" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L10)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L10, preflop_L11)"></p>
+              <p id="preflop_L11" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L11)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L11, preflop_L12)"></p>
+              <p id="preflop_L12" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L12)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L12, preflop_L13)"></p>
+              <p id="preflop_L13" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L13)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L13, preflop_L14)"></p>
+              <p id="preflop_L14" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L14)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L14, preflop_L15)"></p>
+              <p id="preflop_L15" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L15)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L15, preflop_L16)"></p>
+              <p id="preflop_L16" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L16)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L16, preflop_L17)"></p>
+              <p id="preflop_L17" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L17)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L17, preflop_L18)"></p>
+              <p id="preflop_L18" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L18)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L18, preflop_L19)"></p>
+              <p id="preflop_L19" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L19)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L19, preflop_L20)"></p>
+              <p id="preflop_L20" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L20)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L20, preflop_L21)"></p>
+              <p id="preflop_L21" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L21)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L21, preflop_L22)"></p>
+              <p id="preflop_L22" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L22)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L22, preflop_L23)"></p>
+              <p id="preflop_L23" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L23)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L23, preflop_L24)"></p>
+              <p id="preflop_L24" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L24)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L24, preflop_L25)"></p>
+              <p id="preflop_L25" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L25)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L25, preflop_L26)"></p>
+              <p id="preflop_L26" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L26)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L26, preflop_L27)"></p>
+              <p id="preflop_L27" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L27)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L27, preflop_L28)"></p>
+              <p id="preflop_L28" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L28)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L28, preflop_L29)"></p>
+              <p id="preflop_L29" name="preflop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', preflop_L29)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(preflop_L29, preflop_L30)"></p>
+              <p id="preflop_L30" name="preflop_action"></p>
+              <p id="pf_describe_button"><button class="btn btn-warning fs-1" onclick="show_describe_dialog(present_line, next_line)">プリフロップのアクションを入力する</button></p>
+              <p id="pf_goto_next" ><button onclick="go_to_next('flop')" class="btn btn-outline-success fs-1">フロップへ移動する</button></p>
+            </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+            <button id="flop" class="accordion-button collapsed fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              フロップ
+            </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p id="pot_flop_start" class="fs-1"></p>
+              <p id="flop_start" class="row justify-content-center"><img src="/images/card-img/trumpdummy.JPG" class="col-2" id="flop_card01" onclick="card_click('board_card1', 0, 'board')"><img src="/images/card-img/trumpdummy.JPG" class="col-2" id="flop_card02" onclick="card_click('board_card2', 1, 'board')"><img src="/images/card-img/trumpdummy.JPG" class="col-2" id="flop_card03" onclick="card_click('board_card3', 2, 'board')"></p>
+              <div class="mt-2"><button class="btn btn-secondary w-50 fs-2" onclick="card_clear(['board_card1', 'board_card2', 'board_card3', 'flop_card01', 'flop_card02', 'flop_card03'], [0, 1, 2], 'board')">クリア</button></div>
+              <p id="flop_L01" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L01)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L01, flop_L02)"></p>
+              <p id="flop_L02" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L02)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L02, flop_L03)"></p>
+              <p id="flop_L03" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L03)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L03, flop_L04)"></p>
+              <p id="flop_L04" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L04)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L04, flop_L05)"></p>
+              <p id="flop_L05" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L05)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L05, flop_L06)"></p>
+              <p id="flop_L06" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L06)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L06, flop_L07)"></p>
+              <p id="flop_L07" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L07)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L07, flop_L08)"></p>
+              <p id="flop_L08" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L08)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L08, flop_L09)"></p>
+              <p id="flop_L09" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L09)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L09, flop_L10)"></p>
+              <p id="flop_L10" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L10)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L10, flop_L11)"></p>
+              <p id="flop_L11" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L11)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L11, flop_L12)"></p>
+              <p id="flop_L12" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L12)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L12, flop_L13)"></p>
+              <p id="flop_L13" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L13)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L13, flop_L14)"></p>
+              <p id="flop_L14" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L14)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L14, flop_L15)"></p>
+              <p id="flop_L15" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L15)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L15, flop_L16)"></p>
+              <p id="flop_L16" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L16)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L16, flop_L17)"></p>
+              <p id="flop_L17" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L17)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L17, flop_L18)"></p>
+              <p id="flop_L18" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L18)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L18, flop_L19)"></p>
+              <p id="flop_L19" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L19)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L19, flop_L20)"></p>
+              <p id="flop_L20" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L20)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L20, flop_L21)"></p>
+              <p id="flop_L21" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L21)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L21, flop_L22)"></p>
+              <p id="flop_L22" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L22)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L22, flop_L23)"></p>
+              <p id="flop_L23" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L23)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L23, flop_L24)"></p>
+              <p id="flop_L24" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L24)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L24, flop_L25)"></p>
+              <p id="flop_L25" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L25)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L25, flop_L26)"></p>
+              <p id="flop_L26" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L26)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L26, flop_L27)"></p>
+              <p id="flop_L27" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L27)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L27, flop_L28)"></p>
+              <p id="flop_L28" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L28)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L28, flop_L29)"></p>
+              <p id="flop_L29" name="flop_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', flop_L29)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(flop_L29, flop_L30)"></p>
+              <p id="flop_L30" name="flop_action" ></p>
+              <p id="f_describe_button"></p>
+              <p id="f_goto_next" ></p>				
+            </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+            <button id="turn" class="accordion-button collapsed fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              ターン
+            </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p id="pot_turn_start" class="fs-1"></p>
+              <p id="turn_start"><img src="/images/card-img/trumpdummy.JPG" class="col-2" id="turn_card" onclick="card_click('board_card4', 3, 'board')"></p>
+              <div class="mt-2"><button class="btn btn-secondary w-25 fs-2" onclick="card_clear(['board_card4', 'turn_card'], [3], 'board')">クリア</button></div>
+              <p id="turn_L01" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L01)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L01, turn_L02)"></p>
+              <p id="turn_L02" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L02)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L02, turn_L03)"></p>
+              <p id="turn_L03" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L03)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L03, turn_L04)"></p>
+              <p id="turn_L04" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L04)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L04, turn_L05)"></p>
+              <p id="turn_L05" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L05)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L05, turn_L06)"></p>
+              <p id="turn_L06" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L06)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L06, turn_L07)"></p>
+              <p id="turn_L07" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L07)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L07, turn_L08)"></p>
+              <p id="turn_L08" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L08)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L08, turn_L09)"></p>
+              <p id="turn_L09" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L09)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L09, turn_L10)"></p>
+              <p id="turn_L10" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L10)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L10, turn_L11)"></p>
+              <p id="turn_L11" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L11)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L11, turn_L12)"></p>
+              <p id="turn_L12" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L12)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L12, turn_L13)"></p>
+              <p id="turn_L13" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L13)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L13, turn_L14)"></p>
+              <p id="turn_L14" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L14)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L14, turn_L15)"></p>
+              <p id="turn_L15" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L15)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L15, turn_L16)"></p>
+              <p id="turn_L16" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L16)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L16, turn_L17)"></p>
+              <p id="turn_L17" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L17)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L17, turn_L18)"></p>
+              <p id="turn_L18" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L18)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L18, turn_L19)"></p>
+              <p id="turn_L19" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L19)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L19, turn_L20)"></p>
+              <p id="turn_L20" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L20)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L20, turn_L21)"></p>
+              <p id="turn_L21" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L21)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L21, turn_L22)"></p>
+              <p id="turn_L22" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L22)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L22, turn_L23)"></p>
+              <p id="turn_L23" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L23)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L23, turn_L24)"></p>
+              <p id="turn_L24" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L24)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L24, turn_L25)"></p>
+              <p id="turn_L25" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L25)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L25, turn_L26)"></p>
+              <p id="turn_L26" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L26)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L26, turn_L27)"></p>
+              <p id="turn_L27" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L27)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L27, turn_L28)"></p>
+              <p id="turn_L28" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L28)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L28, turn_L29)"></p>
+              <p id="turn_L29" name="turn_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', turn_L29)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(turn_L29, turn_L30)"></p>
+              <p id="turn_L30" name="turn_action"></p>
+              <p id="t_describe_button"></p>
+              <p id="t_goto_next" ></p>
+            </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingfour">
+              <button id="river" class="accordion-button collapsed fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+              リバー
+              </button>
+            </h2>
+            <div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+              <p id="pot_river_start" class="fs-1"></p>
+              <p id="river_start"><img src="/images/card-img/trumpdummy.JPG" class="col-2" id="river_card" onclick="card_click('board_card5', 4, 'board')"></p>
+              <div class="mt-2"><button class="btn btn-secondary w-25 fs-2" onclick="card_clear(['board_card5', 'river_card'], [4], 'board')">クリア</button></div>
+              <p id="river_L01" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L01)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L01, river_L02)"></p>
+              <p id="river_L02" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L02)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L02, river_L03)"></p>
+              <p id="river_L03" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L03)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L03, river_L04)"></p>
+              <p id="river_L04" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L04)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L04, river_L05)"></p>
+              <p id="river_L05" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L05)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L05, river_L06)"></p>
+              <p id="river_L06" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L06)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L06, river_L07)"></p>
+              <p id="river_L07" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L07)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L07, river_L08)"></p>
+              <p id="river_L08" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L08)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L08, river_L09)"></p>
+              <p id="river_L09" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L09)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L09, river_L10)"></p>
+              <p id="river_L10" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L10)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L10, river_L11)"></p>
+              <p id="river_L11" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L11)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L11, river_L12)"></p>
+              <p id="river_L12" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L12)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L12, river_L13)"></p>
+              <p id="river_L13" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L13)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L13, river_L14)"></p>
+              <p id="river_L14" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L14)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L14, river_L15)"></p>
+              <p id="river_L15" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L15)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L15, river_L16)"></p>
+              <p id="river_L16" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L16)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L16, river_L17)"></p>
+              <p id="river_L17" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L17)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L17, river_L18)"></p>
+              <p id="river_L18" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L18)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L18, river_L19)"></p>
+              <p id="river_L19" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L19)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L19, river_L20)"></p>
+              <p id="river_L20" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L20)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L20, river_L21)"></p>
+              <p id="river_L21" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L21)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L21, river_L22)"></p>
+              <p id="river_L22" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L22)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L22, river_L23)"></p>
+              <p id="river_L23" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L23)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L23, river_L24)"></p>
+              <p id="river_L24" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L24)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L24, river_L25)"></p>
+              <p id="river_L25" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L25)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L25, river_L26)"></p>
+              <p id="river_L26" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L26)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L26, river_L27)"></p>
+              <p id="river_L27" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L27)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L27, river_L28)"></p>
+              <p id="river_L28" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L28)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L28, river_L29)"></p>
+              <p id="river_L29" name="river_action" class="action_sentence fs-1" onmouseover="draw_situation('canvas', river_L29)" onmouseleave="draw_situation('canvas' , previous_line(present_line))" onclick = "show_describe_dialog(river_L29, river_L30)"></p>
+              <p id="river_L30" name="river_action"></p>
+              <p id="r_describe_button"></p>
+              <p id="r_show_down" ><button onclick="show_result()" class="btn btn-outline-success fs-1">ショーダウンを表示する</button></p>
+              </div>
+            </div>
+            </div>
+          </div>
+          <p id = "show_down_result" class="text-dark display-2" onmouseover="draw_winner('canvas', previous_line(present_line))" onmouseleave="draw_situation('canvas' , previous_line(present_line))" style="cursor: pointer;"></p>
+          <p id = "AllDelete"></p>
+        </div>
+        </div>
+      </div>
+        
+      <div class="modal fade" tabindex="-1" id="card_dialog">
+        <div  class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+          <div class="modal-header text-center">
+            <h5 class="modal-title"><p id="card_dialog_title"  class="display-2 text-dark"></p></h5>
+            <button type="button" class="btn-close fs-1" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body row">
+            <div id="spade" class="col-3">
+              <img src="/images/card-img/s02.JPG" id="2s" name="2s" class="col-12" onclick="card_register('2s', 0)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s03.JPG" id="3s" name="3s" class="col-12" onclick="card_register('3s', 1)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s04.JPG" id="4s" name="4s" class="col-12" onclick="card_register('4s', 2)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s05.JPG" id="5s" name="5s" class="col-12" onclick="card_register('5s', 3)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s06.JPG" id="6s" name="6s" class="col-12" onclick="card_register('6s', 4)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s07.JPG" id="7s" name="7s" class="col-12" onclick="card_register('7s', 5)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s08.JPG" id="8s" name="8s" class="col-12" onclick="card_register('8s', 6)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s09.JPG" id="9s" name="9s" class="col-12" onclick="card_register('9s', 7)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s10.JPG" id="Ts" name="Ts" class="col-12" onclick="card_register('Ts', 8)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s11.JPG" id="Js" name="Js" class="col-12" onclick="card_register('Js', 9)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s12.JPG" id="Qs" name="Qs" class="col-12" onclick="card_register('Qs', 10)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s13.JPG" id="Ks" name="Ks" class="col-12" onclick="card_register('Ks', 11)" data-bs-dismiss="modal">
+              <img src="/images/card-img/s01.JPG" id="As" name="As" class="col-12" onclick="card_register('As', 12)" data-bs-dismiss="modal">
+              </div>
+              <div id="heart" class="col-3">
+              <img src="/images/card-img/h02.JPG" id="2h" name="2h" class="col-12" onclick="card_register('2h', 13)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h03.JPG" id="3h" name="3h" class="col-12" onclick="card_register('3h', 14)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h04.JPG" id="4h" name="4h" class="col-12" onclick="card_register('4h', 15)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h05.JPG" id="5h" name="5h" class="col-12" onclick="card_register('5h', 16)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h06.JPG" id="6h" name="6h" class="col-12" onclick="card_register('6h', 17)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h07.JPG" id="7h" name="7h" class="col-12" onclick="card_register('7h', 18)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h08.JPG" id="8h" name="8h" class="col-12" onclick="card_register('8h', 19)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h09.JPG" id="9h" name="9h" class="col-12" onclick="card_register('9h', 20)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h10.JPG" id="Th" name="Th" class="col-12" onclick="card_register('Th', 21)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h11.JPG" id="Jh" name="Jh" class="col-12" onclick="card_register('Jh', 22)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h12.JPG" id="Qh" name="Qh" class="col-12" onclick="card_register('Qh', 23)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h13.JPG" id="Kh" name="Kh" class="col-12" onclick="card_register('Kh', 24)" data-bs-dismiss="modal">
+              <img src="/images/card-img/h01.JPG" id="Ah" name="Ah" class="col-12" onclick="card_register('Ah', 25)" data-bs-dismiss="modal">
+              </div>
+              <div id="diamond" class="col-3">
+              <img src="/images/card-img/d02.JPG" id="2d" name="2d" class="col-12" onclick="card_register('2d', 26)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d03.JPG" id="3d" name="3d" class="col-12" onclick="card_register('3d', 27)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d04.JPG" id="4d" name="4d" class="col-12" onclick="card_register('4d', 28)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d05.JPG" id="5d" name="5d" class="col-12" onclick="card_register('5d', 29)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d06.JPG" id="6d" name="6d" class="col-12" onclick="card_register('6d', 30)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d07.JPG" id="7d" name="7d" class="col-12" onclick="card_register('7d', 31)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d08.JPG" id="8d" name="8d" class="col-12" onclick="card_register('8d', 32)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d09.JPG" id="9d" name="9d" class="col-12" onclick="card_register('9d', 33)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d10.JPG" id="Td" name="Td" class="col-12" onclick="card_register('Td', 34)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d11.JPG" id="Jd" name="Jd" class="col-12" onclick="card_register('Jd', 35)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d12.JPG" id="Qd" name="Qd" class="col-12" onclick="card_register('Qd', 36)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d13.JPG" id="Kd" name="Kd" class="col-12" onclick="card_register('Kd', 37)" data-bs-dismiss="modal">
+              <img src="/images/card-img/d01.JPG" id="Ad" name="Ad" class="col-12" onclick="card_register('Ad', 38)" data-bs-dismiss="modal">
+              </div>
+              <div id="crab" class="col-3">
+              <img src="/images/card-img/c02.JPG" id="2c" name="2c" class="col-12" onclick="card_register('2c', 39)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c03.JPG" id="3c" name="3c" class="col-12" onclick="card_register('3c', 40)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c04.JPG" id="4c" name="4c" class="col-12" onclick="card_register('4c', 41)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c05.JPG" id="5c" name="5c" class="col-12" onclick="card_register('5c', 42)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c06.JPG" id="6c" name="6c" class="col-12" onclick="card_register('6c', 43)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c07.JPG" id="7c" name="7c" class="col-12" onclick="card_register('7c', 44)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c08.JPG" id="8c" name="8c" class="col-12" onclick="card_register('8c', 45)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c09.JPG" id="9c" name="9c" class="col-12" onclick="card_register('9c', 46)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c10.JPG" id="Tc" name="Tc" class="col-12" onclick="card_register('Tc', 47)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c11.JPG" id="Jc" name="Jc" class="col-12" onclick="card_register('Jc', 48)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c12.JPG" id="Qc" name="Qc" class="col-12" onclick="card_register('Qc', 49)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c13.JPG" id="Kc" name="Kc" class="col-12" onclick="card_register('Kc', 50)" data-bs-dismiss="modal">
+              <img src="/images/card-img/c01.JPG" id="Ac" name="Ac" class="col-12" onclick="card_register('Ac', 51)" data-bs-dismiss="modal">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <p class="text-center"><button data-bs-dismiss="modal"  class="btn btn-secondary fs-1">閉じる</button></p>
+          </div>
+          </div>
+        </div>
+      </div>
+        
+        
+        
+        
+      <div class="modal fade fs-2" id="text_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-lg">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title display-1">ハンドヒストリー</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <div id="setting_text"></div>
+            <div id="player_text" class="row justify-content-center"></div>
+            <div id="board_text" style="margin: 10px 0;"></div>
+            <div class="container">
+              <div class="row">
+                <div id="preflop_text" class="col"></div>
+                <div id="flop_text" class="col"></div>
+                <div id="turn_text" class="col"></div>
+                <div id="river_text" class="col"></div>
+                <div id="showdown_text"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span id="text_switch"><button type="button" class="btn btn-info fs-1" onclick="text_change()">テキスト切り替え</button></span>
+            <button type="button" class="btn btn-secondary fs-1 ms-3" data-bs-dismiss="modal">閉じる</button>
+          </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="modal fade" tabindex="-1" id="describe_dialog">
+        <div  class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title">プレイヤーのアクションを<br>入力する</h1>
+            <button type="button" class="btn-close fs-1" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="describe_dialog_attribute" class="">
+              <div id="describe_dialog_who" class="mt-5 mb-5"></div>
+              <div id="describe_dialog_action" class="mt-5 mb-5"></div>
+              <div class="row justify-content-center align-items-center mt-5 mb-5">
+                <div id="describe_dialog_how" class="col-8"></div>
+                <div id="describe_dialog_unit" class="col-4 text-start"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div id="describe_dialog_button"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal fade" tabindex="-1" id="form_submit_dialog">
+        <div  class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title">ハンドヒストリーを登録</h1>
+            <button type="button" class="btn-close fs-1" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="fs-1">名前（空欄でも可）</p>
+            <p><input type="text" class="form-control fs-1" id="history_name"></p>
+            <p class="fs-1">コメント（空欄でも可）</p>
+            <p><textarea class="form-control fs-3" id="hand_comment"></textarea></p>
+            <p class="fs-1">タグ（検索をするときに役立ちます。）</p>
+            <p><input type="text" class="form-control fs-1" id="Tag1"><input type="text" class="form-control fs-1" id="Tag2"><input type="text" class="form-control fs-1" id="Tag3"></p>
+          </div>
+          <div class="modal-footer">
+            <p><button class="btn btn-danger fs-1 me-5" onclick="submit_form()">決定</button><button class="btn btn-secondary fs-1" data-bs-dismiss="modal">戻る</button></p>
+          </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="text-center bg-light mt-3 ">
+      <p class="mb-5"><button class="btn btn-outline-dark fs-1 mt-3 " onclick="frame_start();">動画を作成する</button></p>
+      <div class="container-fluid" id="record_canvas_wrapper"><canvas class="container-fluid" id="record_canvas" width="800" height="400" style="display: none;"></canvas></div>
+      <p id="link_text" class="fs-1"></p>
+      <p class="mt-5 mb-5"><button class="btn btn-outline-primary fs-1" onclick="open_text_dialog()">テキストデータを作成する</button></p>
+      <canvas display="none" id="record_canvas" width="800" height="400" style="display:none;"></canvas>
+      <p id="test"></p>
+      <p class="mt-5 mb-5"><button class="btn btn-outline-danger fs-1" data-bs-toggle="modal" data-bs-target="#form_submit_dialog">登録する</button></p>
+      <p class="mt-5 mb-5"><button class="btn btn-secondary fs-1" onclick="history.back()">戻る</button></p>
+      <p class="mt-5 mb-5"><button class="btn btn-secondary fs-1 mb-3" onclick="location.href='./page04'">メイン</button></p>
+      <input type="hidden" name="number_of_players" id="number_of_players" value="6">
+      </div>
+
+<form action="" method="post" name="myform" id="myform">
+  <input type="hidden" name="historyname" id="historyname">
+  <input type="hidden" name="comment" id="comment">
+  <input type="hidden" name="count" id="count">
+  <input type="hidden" name="tag1" id="tag1">
+  <input type="hidden" name="tag2" id="tag2">
+  <input type="hidden" name="tag3" id="tag3">
+
+
+  <input type="hidden" name="game" id="game">
+  <input type="hidden" name="stack" id="stack">
+  <input type="hidden" name="uni" id="uni">
+  <input type="hidden" name="sblind" id="sblind">
+  <input type="hidden" name="bblind" id="bblind">
+  <input type="hidden" name="whoante" id="whoante">
+  <input type="hidden" name="howante" id="howante">
+
+  <input type="hidden" name="sb_name" id="sb_name">
+  <input type="hidden" name="sb_card01" id="sb_card01">
+  <input type="hidden" name="sb_card02" id="sb_card02">
+  <input type="hidden" name="sb_stack" id="sb_stack">
+  <input type="hidden" name="bb_name" id="bb_name">
+  <input type="hidden" name="bb_card01" id="bb_card01">
+  <input type="hidden" name="bb_card02" id="bb_card02">
+  <input type="hidden" name="bb_stack" id="bb_stack">
+
+  <input type="hidden" name="bcard01" id="bcard01">
+  <input type="hidden" name="bcard02" id="bcard02">
+  <input type="hidden" name="bcard03" id="bcard03">
+  <input type="hidden" name="bcard04" id="bcard04">
+  <input type="hidden" name="bcard05" id="bcard05">
+
+  <input type="hidden" name="pfw01" id="pfw01"><input type="hidden" name="pfa01" id="pfa01"><input type="hidden" name="pfh01" id="pfh01">
+  <input type="hidden" name="pfw02" id="pfw02"><input type="hidden" name="pfa02" id="pfa02"><input type="hidden" name="pfh02" id="pfh02">
+  <input type="hidden" name="pfw03" id="pfw03"><input type="hidden" name="pfa03" id="pfa03"><input type="hidden" name="pfh03" id="pfh03">
+  <input type="hidden" name="pfw04" id="pfw04"><input type="hidden" name="pfa04" id="pfa04"><input type="hidden" name="pfh04" id="pfh04">
+  <input type="hidden" name="pfw05" id="pfw05"><input type="hidden" name="pfa05" id="pfa05"><input type="hidden" name="pfh05" id="pfh05">
+  <input type="hidden" name="pfw06" id="pfw06"><input type="hidden" name="pfa06" id="pfa06"><input type="hidden" name="pfh06" id="pfh06">
+  <input type="hidden" name="pfw07" id="pfw07"><input type="hidden" name="pfa07" id="pfa07"><input type="hidden" name="pfh07" id="pfh07">
+  <input type="hidden" name="pfw08" id="pfw08"><input type="hidden" name="pfa08" id="pfa08"><input type="hidden" name="pfh08" id="pfh08">
+  <input type="hidden" name="pfw09" id="pfw09"><input type="hidden" name="pfa09" id="pfa09"><input type="hidden" name="pfh09" id="pfh09">
+  <input type="hidden" name="pfw10" id="pfw10"><input type="hidden" name="pfa10" id="pfa10"><input type="hidden" name="pfh10" id="pfh10">
+  <input type="hidden" name="pfw11" id="pfw11"><input type="hidden" name="pfa11" id="pfa11"><input type="hidden" name="pfh11" id="pfh11">
+  <input type="hidden" name="pfw12" id="pfw12"><input type="hidden" name="pfa12" id="pfa12"><input type="hidden" name="pfh12" id="pfh12">
+  <input type="hidden" name="pfw13" id="pfw13"><input type="hidden" name="pfa13" id="pfa13"><input type="hidden" name="pfh13" id="pfh13">
+  <input type="hidden" name="pfw14" id="pfw14"><input type="hidden" name="pfa14" id="pfa14"><input type="hidden" name="pfh14" id="pfh14">
+  <input type="hidden" name="pfw15" id="pfw15"><input type="hidden" name="pfa15" id="pfa15"><input type="hidden" name="pfh15" id="pfh15">
+  <input type="hidden" name="pfw16" id="pfw16"><input type="hidden" name="pfa16" id="pfa16"><input type="hidden" name="pfh16" id="pfh16">
+  <input type="hidden" name="pfw17" id="pfw17"><input type="hidden" name="pfa17" id="pfa17"><input type="hidden" name="pfh17" id="pfh17">
+  <input type="hidden" name="pfw18" id="pfw18"><input type="hidden" name="pfa18" id="pfa18"><input type="hidden" name="pfh18" id="pfh18">
+  <input type="hidden" name="pfw19" id="pfw19"><input type="hidden" name="pfa19" id="pfa19"><input type="hidden" name="pfh19" id="pfh19">
+  <input type="hidden" name="pfw20" id="pfw20"><input type="hidden" name="pfa20" id="pfa20"><input type="hidden" name="pfh20" id="pfh20">
+  <input type="hidden" name="pfw21" id="pfw21"><input type="hidden" name="pfa21" id="pfa21"><input type="hidden" name="pfh21" id="pfh21">
+  <input type="hidden" name="pfw22" id="pfw22"><input type="hidden" name="pfa22" id="pfa22"><input type="hidden" name="pfh22" id="pfh22">
+  <input type="hidden" name="pfw23" id="pfw23"><input type="hidden" name="pfa23" id="pfa23"><input type="hidden" name="pfh23" id="pfh23">
+  <input type="hidden" name="pfw24" id="pfw24"><input type="hidden" name="pfa24" id="pfa24"><input type="hidden" name="pfh24" id="pfh24">
+  <input type="hidden" name="pfw25" id="pfw25"><input type="hidden" name="pfa25" id="pfa25"><input type="hidden" name="pfh25" id="pfh25">
+  <input type="hidden" name="pfw26" id="pfw26"><input type="hidden" name="pfa26" id="pfa26"><input type="hidden" name="pfh26" id="pfh26">
+  <input type="hidden" name="pfw27" id="pfw27"><input type="hidden" name="pfa27" id="pfa27"><input type="hidden" name="pfh27" id="pfh27">
+  <input type="hidden" name="pfw28" id="pfw28"><input type="hidden" name="pfa28" id="pfa28"><input type="hidden" name="pfh28" id="pfh28">
+  <input type="hidden" name="pfw29" id="pfw29"><input type="hidden" name="pfa29" id="pfa29"><input type="hidden" name="pfh29" id="pfh29">
+
+  <input type="hidden" name="fw01" id="fw01"><input type="hidden" name="fa01" id="fa01"><input type="hidden" name="fh01" id="fh01">
+  <input type="hidden" name="fw02" id="fw02"><input type="hidden" name="fa02" id="fa02"><input type="hidden" name="fh02" id="fh02">
+  <input type="hidden" name="fw03" id="fw03"><input type="hidden" name="fa03" id="fa03"><input type="hidden" name="fh03" id="fh03">
+  <input type="hidden" name="fw04" id="fw04"><input type="hidden" name="fa04" id="fa04"><input type="hidden" name="fh04" id="fh04">
+  <input type="hidden" name="fw05" id="fw05"><input type="hidden" name="fa05" id="fa05"><input type="hidden" name="fh05" id="fh05">
+  <input type="hidden" name="fw06" id="fw06"><input type="hidden" name="fa06" id="fa06"><input type="hidden" name="fh06" id="fh06">
+  <input type="hidden" name="fw07" id="fw07"><input type="hidden" name="fa07" id="fa07"><input type="hidden" name="fh07" id="fh07">
+  <input type="hidden" name="fw08" id="fw08"><input type="hidden" name="fa08" id="fa08"><input type="hidden" name="fh08" id="fh08">
+  <input type="hidden" name="fw09" id="fw09"><input type="hidden" name="fa09" id="fa09"><input type="hidden" name="fh09" id="fh09">
+  <input type="hidden" name="fw10" id="fw10"><input type="hidden" name="fa10" id="fa10"><input type="hidden" name="fh10" id="fh10">
+  <input type="hidden" name="fw11" id="fw11"><input type="hidden" name="fa11" id="fa11"><input type="hidden" name="fh11" id="fh11">
+  <input type="hidden" name="fw12" id="fw12"><input type="hidden" name="fa12" id="fa12"><input type="hidden" name="fh12" id="fh12">
+  <input type="hidden" name="fw13" id="fw13"><input type="hidden" name="fa13" id="fa13"><input type="hidden" name="fh13" id="fh13">
+  <input type="hidden" name="fw14" id="fw14"><input type="hidden" name="fa14" id="fa14"><input type="hidden" name="fh14" id="fh14">
+  <input type="hidden" name="fw15" id="fw15"><input type="hidden" name="fa15" id="fa15"><input type="hidden" name="fh15" id="fh15">
+  <input type="hidden" name="fw16" id="fw16"><input type="hidden" name="fa16" id="fa16"><input type="hidden" name="fh16" id="fh16">
+  <input type="hidden" name="fw17" id="fw17"><input type="hidden" name="fa17" id="fa17"><input type="hidden" name="fh17" id="fh17">
+  <input type="hidden" name="fw18" id="fw18"><input type="hidden" name="fa18" id="fa18"><input type="hidden" name="fh18" id="fh18">
+  <input type="hidden" name="fw19" id="fw19"><input type="hidden" name="fa19" id="fa19"><input type="hidden" name="fh19" id="fh19">
+  <input type="hidden" name="fw20" id="fw20"><input type="hidden" name="fa20" id="fa20"><input type="hidden" name="fh20" id="fh20">
+  <input type="hidden" name="fw21" id="fw21"><input type="hidden" name="fa21" id="fa21"><input type="hidden" name="fh21" id="fh21">
+  <input type="hidden" name="fw22" id="fw22"><input type="hidden" name="fa22" id="fa22"><input type="hidden" name="fh22" id="fh22">
+  <input type="hidden" name="fw23" id="fw23"><input type="hidden" name="fa23" id="fa23"><input type="hidden" name="fh23" id="fh23">
+  <input type="hidden" name="fw24" id="fw24"><input type="hidden" name="fa24" id="fa24"><input type="hidden" name="fh24" id="fh24">
+  <input type="hidden" name="fw25" id="fw25"><input type="hidden" name="fa25" id="fa25"><input type="hidden" name="fh25" id="fh25">
+  <input type="hidden" name="fw26" id="fw26"><input type="hidden" name="fa26" id="fa26"><input type="hidden" name="fh26" id="fh26">
+  <input type="hidden" name="fw27" id="fw27"><input type="hidden" name="fa27" id="fa27"><input type="hidden" name="fh27" id="fh27">
+  <input type="hidden" name="fw28" id="fw28"><input type="hidden" name="fa28" id="fa28"><input type="hidden" name="fh28" id="fh28">
+  <input type="hidden" name="fw29" id="fw29"><input type="hidden" name="fa29" id="fa29"><input type="hidden" name="fh29" id="fh29">
+
+  <input type="hidden" name="tw01" id="tw01"><input type="hidden" name="ta01" id="ta01"><input type="hidden" name="th01" id="th01">
+  <input type="hidden" name="tw02" id="tw02"><input type="hidden" name="ta02" id="ta02"><input type="hidden" name="th02" id="th02">
+  <input type="hidden" name="tw03" id="tw03"><input type="hidden" name="ta03" id="ta03"><input type="hidden" name="th03" id="th03">
+  <input type="hidden" name="tw04" id="tw04"><input type="hidden" name="ta04" id="ta04"><input type="hidden" name="th04" id="th04">
+  <input type="hidden" name="tw05" id="tw05"><input type="hidden" name="ta05" id="ta05"><input type="hidden" name="th05" id="th05">
+  <input type="hidden" name="tw06" id="tw06"><input type="hidden" name="ta06" id="ta06"><input type="hidden" name="th06" id="th06">
+  <input type="hidden" name="tw07" id="tw07"><input type="hidden" name="ta07" id="ta07"><input type="hidden" name="th07" id="th07">
+  <input type="hidden" name="tw08" id="tw08"><input type="hidden" name="ta08" id="ta08"><input type="hidden" name="th08" id="th08">
+  <input type="hidden" name="tw09" id="tw09"><input type="hidden" name="ta09" id="ta09"><input type="hidden" name="th09" id="th09">
+  <input type="hidden" name="tw10" id="tw10"><input type="hidden" name="ta10" id="ta10"><input type="hidden" name="th10" id="th10">
+  <input type="hidden" name="tw11" id="tw11"><input type="hidden" name="ta11" id="ta11"><input type="hidden" name="th11" id="th11">
+  <input type="hidden" name="tw12" id="tw12"><input type="hidden" name="ta12" id="ta12"><input type="hidden" name="th12" id="th12">
+  <input type="hidden" name="tw13" id="tw13"><input type="hidden" name="ta13" id="ta13"><input type="hidden" name="th13" id="th13">
+  <input type="hidden" name="tw14" id="tw14"><input type="hidden" name="ta14" id="ta14"><input type="hidden" name="th14" id="th14">
+  <input type="hidden" name="tw15" id="tw15"><input type="hidden" name="ta15" id="ta15"><input type="hidden" name="th15" id="th15">
+  <input type="hidden" name="tw16" id="tw16"><input type="hidden" name="ta16" id="ta16"><input type="hidden" name="th16" id="th16">
+  <input type="hidden" name="tw17" id="tw17"><input type="hidden" name="ta17" id="ta17"><input type="hidden" name="th17" id="th17">
+  <input type="hidden" name="tw18" id="tw18"><input type="hidden" name="ta18" id="ta18"><input type="hidden" name="th18" id="th18">
+  <input type="hidden" name="tw19" id="tw19"><input type="hidden" name="ta19" id="ta19"><input type="hidden" name="th19" id="th19">
+  <input type="hidden" name="tw20" id="tw20"><input type="hidden" name="ta20" id="ta20"><input type="hidden" name="th20" id="th20">
+  <input type="hidden" name="tw21" id="tw21"><input type="hidden" name="ta21" id="ta21"><input type="hidden" name="th21" id="th21">
+  <input type="hidden" name="tw22" id="tw22"><input type="hidden" name="ta22" id="ta22"><input type="hidden" name="th22" id="th22">
+  <input type="hidden" name="tw23" id="tw23"><input type="hidden" name="ta23" id="ta23"><input type="hidden" name="th23" id="th23">
+  <input type="hidden" name="tw24" id="tw24"><input type="hidden" name="ta24" id="ta24"><input type="hidden" name="th24" id="th24">
+  <input type="hidden" name="tw25" id="tw25"><input type="hidden" name="ta25" id="ta25"><input type="hidden" name="th25" id="th25">
+  <input type="hidden" name="tw26" id="tw26"><input type="hidden" name="ta26" id="ta26"><input type="hidden" name="th26" id="th26">
+  <input type="hidden" name="tw27" id="tw27"><input type="hidden" name="ta27" id="ta27"><input type="hidden" name="th27" id="th27">
+  <input type="hidden" name="tw28" id="tw28"><input type="hidden" name="ta28" id="ta28"><input type="hidden" name="th28" id="th28">
+  <input type="hidden" name="tw29" id="tw29"><input type="hidden" name="ta29" id="ta29"><input type="hidden" name="th29" id="th29">
+
+  <input type="hidden" name="rw01" id="rw01"><input type="hidden" name="ra01" id="ra01"><input type="hidden" name="rh01" id="rh01">
+  <input type="hidden" name="rw02" id="rw02"><input type="hidden" name="ra02" id="ra02"><input type="hidden" name="rh02" id="rh02">
+  <input type="hidden" name="rw03" id="rw03"><input type="hidden" name="ra03" id="ra03"><input type="hidden" name="rh03" id="rh03">
+  <input type="hidden" name="rw04" id="rw04"><input type="hidden" name="ra04" id="ra04"><input type="hidden" name="rh04" id="rh04">
+  <input type="hidden" name="rw05" id="rw05"><input type="hidden" name="ra05" id="ra05"><input type="hidden" name="rh05" id="rh05">
+  <input type="hidden" name="rw06" id="rw06"><input type="hidden" name="ra06" id="ra06"><input type="hidden" name="rh06" id="rh06">
+  <input type="hidden" name="rw07" id="rw07"><input type="hidden" name="ra07" id="ra07"><input type="hidden" name="rh07" id="rh07">
+  <input type="hidden" name="rw08" id="rw08"><input type="hidden" name="ra08" id="ra08"><input type="hidden" name="rh08" id="rh08">
+  <input type="hidden" name="rw09" id="rw09"><input type="hidden" name="ra09" id="ra09"><input type="hidden" name="rh09" id="rh09">
+  <input type="hidden" name="rw10" id="rw10"><input type="hidden" name="ra10" id="ra10"><input type="hidden" name="rh10" id="rh10">
+  <input type="hidden" name="rw11" id="rw11"><input type="hidden" name="ra11" id="ra11"><input type="hidden" name="rh11" id="rh11">
+  <input type="hidden" name="rw12" id="rw12"><input type="hidden" name="ra12" id="ra12"><input type="hidden" name="rh12" id="rh12">
+  <input type="hidden" name="rw13" id="rw13"><input type="hidden" name="ra13" id="ra13"><input type="hidden" name="rh13" id="rh13">
+  <input type="hidden" name="rw14" id="rw14"><input type="hidden" name="ra14" id="ra14"><input type="hidden" name="rh14" id="rh14">
+  <input type="hidden" name="rw15" id="rw15"><input type="hidden" name="ra15" id="ra15"><input type="hidden" name="rh15" id="rh15">
+  <input type="hidden" name="rw16" id="rw16"><input type="hidden" name="ra16" id="ra16"><input type="hidden" name="rh16" id="rh16">
+  <input type="hidden" name="rw17" id="rw17"><input type="hidden" name="ra17" id="ra17"><input type="hidden" name="rh17" id="rh17">
+  <input type="hidden" name="rw18" id="rw18"><input type="hidden" name="ra18" id="ra18"><input type="hidden" name="rh18" id="rh18">
+  <input type="hidden" name="rw19" id="rw19"><input type="hidden" name="ra19" id="ra19"><input type="hidden" name="rh19" id="rh19">
+  <input type="hidden" name="rw20" id="rw20"><input type="hidden" name="ra20" id="ra20"><input type="hidden" name="rh20" id="rh20">
+  <input type="hidden" name="rw21" id="rw21"><input type="hidden" name="ra21" id="ra21"><input type="hidden" name="rh21" id="rh21">
+  <input type="hidden" name="rw22" id="rw22"><input type="hidden" name="ra22" id="ra22"><input type="hidden" name="rh22" id="rh22">
+  <input type="hidden" name="rw23" id="rw23"><input type="hidden" name="ra23" id="ra23"><input type="hidden" name="rh23" id="rh23">
+  <input type="hidden" name="rw24" id="rw24"><input type="hidden" name="ra24" id="ra24"><input type="hidden" name="rh24" id="rh24">
+  <input type="hidden" name="rw25" id="rw25"><input type="hidden" name="ra25" id="ra25"><input type="hidden" name="rh25" id="rh25">
+  <input type="hidden" name="rw26" id="rw26"><input type="hidden" name="ra26" id="ra26"><input type="hidden" name="rh26" id="rh26">
+  <input type="hidden" name="rw27" id="rw27"><input type="hidden" name="ra27" id="ra27"><input type="hidden" name="rh27" id="rh27">
+  <input type="hidden" name="rw28" id="rw28"><input type="hidden" name="ra28" id="ra28"><input type="hidden" name="rh28" id="rh28">
+  <input type="hidden" name="rw29" id="rw29"><input type="hidden" name="ra29" id="ra29"><input type="hidden" name="rh29" id="rh29">
+</form>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="/javascripts/Forheadsup.js"></script>
+<%- include('footer_05') %>

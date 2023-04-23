@@ -1,0 +1,12 @@
+実行ポリシーの確認
+Get-ExecutionPolicy
+実行ポリシーの変更
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+デプロイコマンド
+forever start ./bin/www
+forever restart ./bin/www
+
+page06_1.ejsのソースコード
+handhistory_list += '<dl class="row justify-content-start border-top border-5 btn-outline-primary" role="button" onmouseover="preview_open(' + i + ')"><dt class="col-4 text-truncate">' + item.name + '</dt><dd class="col-8 text-start"><p>コメント：' + item.comment + '</p><p>タグ：' + item.tag1 + '　' + '　' + item.tag2 + '　' + item.tag3 + '</p></dd></dl>' + '<div class="text-start d-flex"><button class="btn btn-outline-primary col-3" onclick="edit(' + i + ')">編集する</button><button class="btn btn-outline-primary col-4" onclick="demo_start(' + i +  ')">動画をダウンロードする</button><button class="btn btn-outline-primary col-3" onclick="text_show(' + i + ')">テキストを表示する</button><button class="btn btn-outline-primary col-3">チャットで共有する</button><button class="btn btn-outline-danger col-3" onclick="data_delete(' + i + ')">削除する</button></div>';
+

@@ -1,0 +1,23 @@
+<%- include('header', title) %>
+<main>
+    <div class="container-fluid mb-5" id="input_wrapper">
+        <p class="text-danger fs-3 text-center"><%=msg%></p>
+        <div class="mb-5 row"><label for="input_label" class="col-3 col-form-label text-light fs-1">ユーザID</label>
+            <div class="col-9"><input type="text" name="username" id="username" class="form-control fs-1"></div>
+        </div>
+        <div class="mb-5 row">
+            <label for="input_label" class="col-3 col-form-label text-light fs-1">パスワード</label>
+            <div class="col-9"><input type="password" name="password" id="password" class="form-control fs-1"></div>
+        </div>
+        <p class="text-center mt-5"><button class="btn btn-outline-primary btn-light text-dark fs-1" id="submit" onclick="submit_login()">ログイン</button></p>
+
+    </div>
+</main>
+<script>
+window.document.onkeydown = function(event){
+    if(event.key === 'Enter'){
+        document.getElementById('submit').click();
+    }
+}
+</script>
+<%- include('footer') %>

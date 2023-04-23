@@ -1,0 +1,62 @@
+<%- include('header', title) %>
+<main class="container-fluid">
+  <p class="text-center fs-2 text-light">あなたのポーカーの歴史に新しい1ページを加えましょう！</p>
+  <div class=" text-center w-100 h-75" id="wrapper">
+        <p><button type="button" class="btn btn-outline-primary btn-light text-dark fs-1 w-50 mt-5 mb-5"  onclick="location.href='./page02'">ログイン</button></p>
+        <p><button type="button" class="btn btn-outline-primary btn-light text-dark fs-1 w-50 mt-5 mb-5"  onclick="location.href='./page03'">ユーザ登録</button></p>
+        <p><button type="button" class="btn btn-outline-primary btn-light text-dark fs-1 w-50 mt-5 mb-5"  data-bs-toggle="modal" data-bs-target="#howtouse_Modal">このアプリ<br>について</button></p>
+        <p><button type="button" class="btn btn-danger fs-1 w-50 mt-5 mb-5" data-bs-toggle="modal" data-bs-target="#attention_Modal">※ご利用の前に<br>　お読みください</button></p>
+    </div>
+
+    <div class="modal fade" id="howtouse_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">このアプリについて</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body fs-3">
+            <h2  class="text-center">テキサスホールデムのハンドヒストリーを記録するアプリです。</h2>
+            <p class="text-center">記録したハンドヒストリーはいつでも見返すことができます。</p>
+            <p><a href="/images/sample/historySample.jpg" data-lightbox="group"><img src="/images/sample/historySample.jpg" width="100%" alt="履歴のサンプル画像"><a ></p>
+            <div class="">
+              <p class="text-center">作成したハンドヒストリーを元に、テキストや動画を生成することができます。</p>
+              <div class="d-flex">
+                <p class="col-6"><video controls src="/images/sample/videoSample.mp4" alt="動画のサンプル" width="200%"></video></p>
+                <p class="col-6"><a href="/images/sample/txtSample.jpg" data-lightbox="group"><img src="/images/sample/txtSample.jpg" alt="テキストサンプル画像" width="100%"><a ></p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="attention_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">※ご利用の前にお読みください</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body fs-3">
+            <p class="fw-bold">・このwebアプリケーションはHAL東京に通う一学生が、就職活動及び学校の課題の為に制作したものです。</p>
+            <p>一学生が個人で制作したものであるため、このwebアプリケーションを利用することによって起きる全てのトラブルに対して、当方が責任を取ることは致しかねます。この点をご留意した上でご利用してください。</p>
+            <p class="fw-bold">・このwebアプリケーションは未完成です。</p>
+            <p>限られた制作期間の中で制作したものですので、このwebアプリケーションは完成していない機能があります。しかし、限られた機能でも有用なものがありますので、ぜひ使ってみてください。</p>
+            <p class="fw-bold">・IDとパスワードはご利用する皆様が責任を持って管理してください。</p>
+            <p>webアプリケーションの仕様上、IDとパスワードは一度紛失してしまうと再設定することはできません。もしもID、もしくはパスワードを紛失してしまった場合は、お手数ですがもう一度ユーザ登録を行ってください。また、そうならない為にもご自身のIDとパスワードは皆様が責任を持って管理してください。</p>
+            <p class="fw-bold">・このwebアプリケーションは期間限定で公開されているものです。</p>
+            <p>申し訳ありませんが、このwebアプリケーションは2024年の3月をめどに終了することを予定しています。また、目的の性質上、期日を待たずして突然サービスを終了することもあります。大事なデータなどは皆様ご自身のデバイスに保存してくださりますようお願いします。</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+
+<%- include('footer') %>

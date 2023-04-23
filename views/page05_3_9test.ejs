@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+    .wrapper{
+        width: 300px;
+        margin: 0 auto;
+    }
+</style>
+</head>
+<body class="bg-info">
+    <p class="text-white display-1 fw-bold text-center" style="margin: 3% auto;">PokerChron</p>
+<div class="container text-center bg-light">
+    <div class="wrapper">
+        <p>登録が完了しました。</p>
+    </div>
+    <div class="container bg-warning text-white">
+        <p>historydata</p>
+        <p><%=name%> <%=comment%> <%=count%></p>
+    </div>
+    <div class="container bg-success text-white">
+        <p>setting</p>
+        <p><%=game%> <%=stack%> <%=uni%> <%=sblind%> <%=bblind%> <%=whoante%> <%=howante%></p>
+    </div>
+    <div class="container bg-dark text-white">
+        <p>players-info</p>
+        <p>utg <%=utg_name%> <%=utg_card01%> <%=utg_card02%> <%=utg_stack%></p>
+        <p>ep1 <%=ep1_name%> <%=ep1_card01%> <%=ep1_card02%> <%=ep1_stack%></p>
+        <p>ep2 <%=ep2_name%> <%=ep2_card01%> <%=ep2_card02%> <%=ep2_stack%></p>
+        <p>lj <%=lj_name%> <%=lj_card01%> <%=lj_card02%> <%=lj_stack%></p>
+        <p>hj <%=hj_name%> <%=hj_card01%> <%=hj_card02%> <%=hj_stack%></p>
+        <p>co <%=co_name%> <%=co_card01%> <%=co_card02%> <%=co_stack%></p>
+        <p>btn <%=btn_name%> <%=btn_card01%> <%=btn_card02%> <%=btn_stack%></p>
+        <p>sb <%=sb_name%> <%=sb_card01%> <%=sb_card02%> <%=sb_stack%></p>
+        <p>bb <%=bb_name%> <%=bb_card01%> <%=bb_card02%> <%=bb_stack%></p>
+    </div>
+    <script>
+
+    </script>
+    <div class="container bg-info text-white">
+        <p>board</p>
+        <p><%=bcard01%> <%=bcard02%> <%=bcard03%> <%=bcard04%> <%=bcard05%></p>
+    </div>
+    <div class="conteiner bg-primary text-white">
+        <p>preflop</p>
+        <p><%=pfw01%> <%=pfa01%> <%=pfh01%></p>
+        <p><%=pfw02%> <%=pfa02%> <%=pfh02%></p>
+        <p><%=pfw03%> <%=pfa03%> <%=pfh03%></p>
+        <p><%=pfw04%> <%=pfa04%> <%=pfh04%></p>
+        <p><%=pfw05%> <%=pfa05%> <%=pfh05%></p>
+        <p><%=pfw06%> <%=pfa06%> <%=pfh06%></p>
+        <p><%=pfw07%> <%=pfa07%> <%=pfh07%></p>
+        <p><%=pfw08%> <%=pfa08%> <%=pfh08%></p>
+        <p><%=pfw09%> <%=pfa09%> <%=pfh09%></p>
+        <p><%=pfw10%> <%=pfa10%> <%=pfh10%></p>
+        <p><%=pfw11%> <%=pfa11%> <%=pfh11%></p>
+        <p><%=pfw12%> <%=pfa12%> <%=pfh12%></p>
+        <p><%=pfw13%> <%=pfa13%> <%=pfh13%></p>
+        <p><%=pfw14%> <%=pfa14%> <%=pfh14%></p>
+        <p><%=pfw15%> <%=pfa15%> <%=pfh15%></p>
+        <p><%=pfw16%> <%=pfa16%> <%=pfh16%></p>
+        <p><%=pfw17%> <%=pfa17%> <%=pfh17%></p>
+        <p><%=pfw18%> <%=pfa18%> <%=pfh18%></p>
+        <p><%=pfw19%> <%=pfa19%> <%=pfh19%></p>
+        <p><%=pfw20%> <%=pfa20%> <%=pfh20%></p>
+        <p><%=pfw21%> <%=pfa21%> <%=pfh21%></p>
+        <p><%=pfw22%> <%=pfa22%> <%=pfh22%></p>
+        <p><%=pfw23%> <%=pfa23%> <%=pfh23%></p>
+        <p><%=pfw24%> <%=pfa24%> <%=pfh24%></p>
+        <p><%=pfw25%> <%=pfa25%> <%=pfh25%></p>
+        <p><%=pfw26%> <%=pfa26%> <%=pfh26%></p>
+        <p><%=pfw27%> <%=pfa27%> <%=pfh27%></p>
+        <p><%=pfw28%> <%=pfa28%> <%=pfh28%></p>
+        <p><%=pfw29%> <%=pfa29%> <%=pfh29%></p>
+    </div>
+    <div class="conteiner bg-primary text-white">
+        <p>flop</p>
+        <p><%=fw01%> <%=fa01%> <%=fh01%></p>
+        <p><%=fw02%> <%=fa02%> <%=fh02%></p>
+        <p><%=fw03%> <%=fa03%> <%=fh03%></p>
+        <p><%=fw04%> <%=fa04%> <%=fh04%></p>
+        <p><%=fw05%> <%=fa05%> <%=fh05%></p>
+        <p><%=fw06%> <%=fa06%> <%=fh06%></p>
+        <p><%=fw07%> <%=fa07%> <%=fh07%></p>
+        <p><%=fw08%> <%=fa08%> <%=fh08%></p>
+        <p><%=fw09%> <%=fa09%> <%=fh09%></p>
+        <p><%=fw10%> <%=fa10%> <%=fh10%></p>
+        <p><%=fw11%> <%=fa11%> <%=fh11%></p>
+        <p><%=fw12%> <%=fa12%> <%=fh12%></p>
+        <p><%=fw13%> <%=fa13%> <%=fh13%></p>
+        <p><%=fw14%> <%=fa14%> <%=fh14%></p>
+        <p><%=fw15%> <%=fa15%> <%=fh15%></p>
+        <p><%=fw16%> <%=fa16%> <%=fh16%></p>
+        <p><%=fw17%> <%=fa17%> <%=fh17%></p>
+        <p><%=fw18%> <%=fa18%> <%=fh18%></p>
+        <p><%=fw19%> <%=fa19%> <%=fh19%></p>
+        <p><%=fw20%> <%=fa20%> <%=fh20%></p>
+        <p><%=fw21%> <%=fa21%> <%=fh21%></p>
+        <p><%=fw22%> <%=fa22%> <%=fh22%></p>
+        <p><%=fw23%> <%=fa23%> <%=fh23%></p>
+        <p><%=fw24%> <%=fa24%> <%=fh24%></p>
+        <p><%=fw25%> <%=fa25%> <%=fh25%></p>
+        <p><%=fw26%> <%=fa26%> <%=fh26%></p>
+        <p><%=fw27%> <%=fa27%> <%=fh27%></p>
+        <p><%=fw28%> <%=fa28%> <%=fh28%></p>
+        <p><%=fw29%> <%=fa29%> <%=fh29%></p>
+    </div>
+    <div class="conteiner bg-primary text-white">
+        <p>turn</p>
+        <p><%=tw01%> <%=ta01%> <%=th01%></p>
+        <p><%=tw02%> <%=ta02%> <%=th02%></p>
+        <p><%=tw03%> <%=ta03%> <%=th03%></p>
+        <p><%=tw04%> <%=ta04%> <%=th04%></p>
+        <p><%=tw05%> <%=ta05%> <%=th05%></p>
+        <p><%=tw06%> <%=ta06%> <%=th06%></p>
+        <p><%=tw07%> <%=ta07%> <%=th07%></p>
+        <p><%=tw08%> <%=ta08%> <%=th08%></p>
+        <p><%=tw09%> <%=ta09%> <%=th09%></p>
+        <p><%=tw10%> <%=ta10%> <%=th10%></p>
+        <p><%=tw11%> <%=ta11%> <%=th11%></p>
+        <p><%=tw12%> <%=ta12%> <%=th12%></p>
+        <p><%=tw13%> <%=ta13%> <%=th13%></p>
+        <p><%=tw14%> <%=ta14%> <%=th14%></p>
+        <p><%=tw15%> <%=ta15%> <%=th15%></p>
+        <p><%=tw16%> <%=ta16%> <%=th16%></p>
+        <p><%=tw17%> <%=ta17%> <%=th17%></p>
+        <p><%=tw18%> <%=ta18%> <%=th18%></p>
+        <p><%=tw19%> <%=ta19%> <%=th19%></p>
+        <p><%=tw20%> <%=ta20%> <%=th20%></p>
+        <p><%=tw21%> <%=ta21%> <%=th21%></p>
+        <p><%=tw22%> <%=ta22%> <%=th22%></p>
+        <p><%=tw23%> <%=ta23%> <%=th23%></p>
+        <p><%=tw24%> <%=ta24%> <%=th24%></p>
+        <p><%=tw25%> <%=ta25%> <%=th25%></p>
+        <p><%=tw26%> <%=ta26%> <%=th26%></p>
+        <p><%=tw27%> <%=ta27%> <%=th27%></p>
+        <p><%=tw28%> <%=ta28%> <%=th28%></p>
+        <p><%=tw29%> <%=ta29%> <%=th29%></p>
+    </div>
+    <div class="conteiner bg-primary text-white">
+        <p>river</p>
+        <p><%=rw01%> <%=ra01%> <%=rh01%></p>
+        <p><%=rw02%> <%=ra02%> <%=rh02%></p>
+        <p><%=rw03%> <%=ra03%> <%=rh03%></p>
+        <p><%=rw04%> <%=ra04%> <%=rh04%></p>
+        <p><%=rw05%> <%=ra05%> <%=rh05%></p>
+        <p><%=rw06%> <%=ra06%> <%=rh06%></p>
+        <p><%=rw07%> <%=ra07%> <%=rh07%></p>
+        <p><%=rw08%> <%=ra08%> <%=rh08%></p>
+        <p><%=rw09%> <%=ra09%> <%=rh09%></p>
+        <p><%=rw10%> <%=ra10%> <%=rh10%></p>
+        <p><%=rw11%> <%=ra11%> <%=rh11%></p>
+        <p><%=rw12%> <%=ra12%> <%=rh12%></p>
+        <p><%=rw13%> <%=ra13%> <%=rh13%></p>
+        <p><%=rw14%> <%=ra14%> <%=rh14%></p>
+        <p><%=rw15%> <%=ra15%> <%=rh15%></p>
+        <p><%=rw16%> <%=ra16%> <%=rh16%></p>
+        <p><%=rw17%> <%=ra17%> <%=rh17%></p>
+        <p><%=rw18%> <%=ra18%> <%=rh18%></p>
+        <p><%=rw19%> <%=ra19%> <%=rh19%></p>
+        <p><%=rw20%> <%=ra20%> <%=rh20%></p>
+        <p><%=rw21%> <%=ra21%> <%=rh21%></p>
+        <p><%=rw22%> <%=ra22%> <%=rh22%></p>
+        <p><%=rw23%> <%=ra23%> <%=rh23%></p>
+        <p><%=rw24%> <%=ra24%> <%=rh24%></p>
+        <p><%=rw25%> <%=ra25%> <%=rh25%></p>
+        <p><%=rw26%> <%=ra26%> <%=rh26%></p>
+        <p><%=rw27%> <%=ra27%> <%=rh27%></p>
+        <p><%=rw28%> <%=ra28%> <%=rh28%></p>
+        <p><%=rw29%> <%=ra29%> <%=rh29%></p>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<%- include('footer_05') %>

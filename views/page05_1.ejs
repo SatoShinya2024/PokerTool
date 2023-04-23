@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link href="/stylesheets/reg.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body class="bg-info">
+    <div id="title-wrapper" role="button" onclick="location.href='./page04'" class="mt-5 mb-5 w-50 container"><img src="/images/icon02.png" width="90px" alt="" class="position-absolute"><p class="text-white text-center display-3 fw-bold ms-5" >PokerChron</p></div><main>
+    <div class="container-sm" id="contentes_wrapper">
+        <h1 class="display-5 fw-normal text-light text-center">最初に人数を選択してください</h1>
+        <form id="form" method="post" action="">
+            <div id="selectbox_wrapper">
+                <p class="text-center">
+                    <select class="form-select w-75 fs-1" id="number_of_players" name="number_of_players" required style="margin: 0 auto;">
+                        <option value="9">9</option>
+                        <option value="6">6</option>
+                        <option value="2">Heads Up</option>
+                    </select>
+                </p>
+                <div class="mt-5"><button class="btn btn-primary fs-1 w-75">ハンド登録へ</button></div>
+            </div>
+        </form>
+        
+        <p class="text-center mt-5"><button class="btn btn-danger fs-1 w-25" onclick="location.href='./page04'">メイン</button></p>
+        <p class="text-center mt-5"><button onclick="history.back()" class="btn btn-secondary fs-1 w-25">戻る</button></p>
+    </div>
+</main>
+
+<script>
+    
+</script>
+
+<%- include('footer_05') %>
